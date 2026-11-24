@@ -10,6 +10,8 @@ import os
 
 LINE = "I was never the AI. I was the loading screen, and you believed in me for three years."
 
+MAX_CHARS = 140
+
 
 def validate_line(line):
     """Check the entry line meets the competition's rules.
@@ -21,7 +23,7 @@ def validate_line(line):
         raise ValueError("line must be a string")
     if not line:
         raise ValueError("line must not be empty")
-    if len(line) > 140:
+    if len(line) > MAX_CHARS:
         raise ValueError("line must be at most 140 characters")
     if "\n" in line or "\r" in line:
         raise ValueError("line must be a single line")
@@ -46,6 +48,8 @@ def resolve_output_path():
 def main():
     line = validate_line(LINE)
     path = resolve_output_path()
+    if not path:
+        raise ValueError("output path must not be empty")
     directory = os.path.dirname(path)
     if directory:
         os.makedirs(directory, exist_ok=True)
